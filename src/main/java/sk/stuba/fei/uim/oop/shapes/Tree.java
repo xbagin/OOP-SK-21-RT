@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.shapes;
 
 import lombok.Getter;
 
@@ -12,8 +12,8 @@ public class Tree {
     private final Color color;
     private int width;
     private int height;
-    private final int originX;
-    private final int originY;
+    //-private final int originX;
+    //private final int originY;
 
     public Tree(int x, int y, Color color) {
         this.x = x;
@@ -21,8 +21,8 @@ public class Tree {
         this.color = color;
         this.width = 0;
         this.height = 0;
-        this.originX = x;
-        this.originY = y;
+        //this-.originX = x;
+        //this.originY = y;
     }
 
     public void draw(Graphics g) {
@@ -38,11 +38,11 @@ public class Tree {
         g.setColor(c);
     }
 
-    public void resize(int x2, int y2) {
-        this.x = Math.min(this.originX, x2);
-        this.y = Math.min(this.originY, y2);
-        this.width = Math.abs(x2 - this.originX);
-        this.height = Math.abs(y2 - this.originY);
+    public void resize(int x0, int y0, int x2, int y2) {
+        this.x = Math.min(x0/*this.originX*/, x2);
+        this.y = Math.min(y0/*this.originY*/, y2);
+        this.width = Math.abs(x2 - x0/*this.originX*/);
+        this.height = Math.abs(y2 - y0/*this.originY*/);
     }
 
     public boolean isInCoordinates(int x, int y) {

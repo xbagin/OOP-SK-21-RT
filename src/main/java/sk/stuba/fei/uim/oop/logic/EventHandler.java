@@ -1,8 +1,13 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.logic;
+
+import sk.stuba.fei.uim.oop.gui.MyButton;
+import sk.stuba.fei.uim.oop.gui.MyPanel;
+import sk.stuba.fei.uim.oop.shapes.Tree;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.util.Locale;
 import java.util.Objects;
 
 public class EventHandler extends UniversalAdapter {
@@ -21,10 +26,10 @@ public class EventHandler extends UniversalAdapter {
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
         if (this.commandIs(e, "Tree")) {
-            this.label.setText("DRAWING");
+            this.label.setText(Modes.DRAWING.name());
         }
         if (this.commandIs(e, "Move")) {
-            this.label.setText("MOVING");
+            this.label.setText(Modes.MOVING.name());
         }
         if (this.commandIs(e, "Next color")) {
             if(e.getSource() instanceof MyButton) {
@@ -41,12 +46,14 @@ public class EventHandler extends UniversalAdapter {
         super.mousePressed(e);
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
-            if (this.modeIs("DRAWING")) {
+            this.mouseOriginX = e.getX();
+            this.MouseOriginY = e.getY();
+            if (this.modeIs(Modes.DRAWING)) {
                 canvas.setTree(new Tree(e.getX(), e.getY(), canvas.getColor()));
             }
-            if (this.modeIs("MOVING")) {
-                this.mouseOriginX = e.getX();
-                this.MouseOriginY = e.getY();
+            if (this.modeIs(Modes.MOVING)) {
+                //this-.mouseOriginX = e.getX();
+                //this.MouseOriginY = e.getY();
                 canvas.setTree(canvas.findMostFrontTreeAt(e.getX(), e.getY()));
             }
             canvas.repaint();
@@ -58,10 +65,10 @@ public class EventHandler extends UniversalAdapter {
         super.mouseReleased(e);
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
-            if (this.modeIs("DRAWING")) {
-                canvas.finishTree(e.getX(), e.getY());
+            if (this.modeIs(Modes.DRAWING)) {
+                canvas.finishTree(/*e.getX(), e.getY()*/);
             }
-            if (this.modeIs("MOVING")) {
+            if (this.modeIs(Modes.MOVING)) {
                 canvas.setTree(null);
             }
             canvas.repaint();
@@ -73,10 +80,10 @@ public class EventHandler extends UniversalAdapter {
         super.mouseDragged(e);
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
-            if (this.modeIs("DRAWING")) {
-                canvas.getTree().resize(e.getX(), e.getY());
+            if (this.modeIs(Modes.DRAWING)) {
+                canvas.getTree().resize(this.mouseOriginX, this.MouseOriginY, e.getX(), e.getY());
             }
-            if (this.modeIs("MOVING")) {
+            if (this.modeIs(Modes.MOVING)) {
                 Tree tree = canvas.getTree();
                 if (tree != null) {
                     tree.move(e.getX() - this.mouseOriginX, e.getY() - this.MouseOriginY);
@@ -88,8 +95,13 @@ public class EventHandler extends UniversalAdapter {
         }
     }
 
-    private boolean modeIs(String mode) {
-        return Objects.equals(this.label.getText(), mode);
+    private boolean modeIs(Modes mode) {
+        //return Objects.equals(this.label.getText(), mode);
+        try {
+            return Objects.equals(Modes.valueOf(this.label.getText().toUpperCase(Locale.ROOT)), mode);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     private boolean commandIs(ActionEvent e, String command) {

@@ -1,7 +1,10 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.gui;
 
 import lombok.Getter;
 import lombok.Setter;
+import sk.stuba.fei.uim.oop.shapes.Colors;
+import sk.stuba.fei.uim.oop.shapes.Tree;
+import sk.stuba.fei.uim.oop.logic.UniversalAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,34 +12,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyPanel extends JPanel {
-    private final Color[] colors;
     private final List<Tree> trees;
     @Getter @Setter
     private Tree tree;
     @Getter
-    private Color color;
-    private int colorIndex;
+    private Colors rotateColor;
 
     public MyPanel(UniversalAdapter listener) {
         super();
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
-        this.colors = new Color[] {Color.RED, Color.BLUE, Color.GREEN};
         this.trees = new ArrayList<>();
-        this.colorIndex = 0;
-        this.color = this.colors[this.colorIndex];
+        this.rotateColor = Colors.FIRST;
     }
 
-    public void finishTree(int x2, int y2) {
-        this.tree.resize(x2, y2);
+    public void finishTree(/*int x2, int y2*/) {
+        //this.tree.resize(x2, y2);
         this.trees.add(this.tree);
         this.tree = null;
     }
 
     public Color nextColor() {
-        this.colorIndex = (this.colorIndex + 1) % this.colors.length;
-        this.color = this.colors[this.colorIndex];
-        return this.color;
+        this.rotateColor = this.rotateColor.next();
+        return this.rotateColor.getColor();
+    }
+
+    public Color getColor() {
+        return this.rotateColor.getColor();
     }
 
     public Tree findMostFrontTreeAt(int x, int y) {

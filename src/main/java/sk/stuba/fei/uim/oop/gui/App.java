@@ -1,4 +1,6 @@
-package sk.stuba.fei.uim.oop;
+package sk.stuba.fei.uim.oop.gui;
+
+import sk.stuba.fei.uim.oop.logic.EventHandler;
 
 import javax.swing.*;
 import java.awt.*;
