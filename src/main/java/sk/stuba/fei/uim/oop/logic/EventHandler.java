@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.logic;
 
+import sk.stuba.fei.uim.oop.gui.App;
 import sk.stuba.fei.uim.oop.gui.MyButton;
 import sk.stuba.fei.uim.oop.gui.MyPanel;
 import sk.stuba.fei.uim.oop.shapes.Tree;
@@ -20,18 +21,19 @@ public class EventHandler extends UniversalAdapter {
         this.label = label;
         this.mouseOriginX = 0;
         this.MouseOriginY = 0;
+        this.label.setText(Modes.DRAWING.name());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-        if (this.commandIs(e, "Tree")) {
+        if (this.commandIs(e, App.TREE_CMD)) {
             this.label.setText(Modes.DRAWING.name());
         }
-        if (this.commandIs(e, "Move")) {
+        if (this.commandIs(e, App.MOVE_CMD)) {
             this.label.setText(Modes.MOVING.name());
         }
-        if (this.commandIs(e, "Next color")) {
+        if (this.commandIs(e, App.NEXT_COLOR_CMD)) {
             if(e.getSource() instanceof MyButton) {
                 MyButton button = (MyButton) e.getSource();
                 if (button.getCanvas() != null) {

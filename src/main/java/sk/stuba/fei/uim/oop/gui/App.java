@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class App {
+    public static final String TREE_CMD = "Tree";
+    public static final String MOVE_CMD = "Move";
+    public static final String NEXT_COLOR_CMD = "Next color";
+
     public App() {
         JFrame frame = new JFrame("RT");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,9 +25,9 @@ public class App {
         MyPanel canvas = new MyPanel(handler);
         label.setBackground(canvas.getColor());
 
-        MyButton treeButton = new MyButton("Tree", handler);
-        MyButton moveButton = new MyButton("Move", handler);
-        MyButton colorButton = new MyButton("Next color", handler, canvas);
+        MyButton treeButton = new MyButton(App.TREE_CMD, handler);
+        MyButton moveButton = new MyButton(App.MOVE_CMD, handler);
+        MyButton colorButton = new MyButton(App.NEXT_COLOR_CMD, handler, canvas);
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         bottomPanel.add(treeButton);

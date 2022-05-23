@@ -3,6 +3,7 @@ package sk.stuba.fei.uim.oop.shapes;
 import lombok.Getter;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 public class Tree {
     @Getter
@@ -46,9 +47,17 @@ public class Tree {
     }
 
     public boolean isInCoordinates(int x, int y) {
+        /*more accurate below -
         boolean inBoundsX = (this.x <= x) && (this.x + this.width >= x);
         boolean inBoundsY = (this.y <= y) && (this.y + this.height >= y);
-        return inBoundsX && inBoundsY;
+        return inBoundsX && inBoundsY;*/
+        Rectangle rect = new Rectangle(
+                this.x + this.width / 3,
+                this.y + this.height / 2,
+                this.width / 3,
+                this.height / 2);
+        Ellipse2D ellipse = new Ellipse2D.Double(this.x, this.y, this.width, this.height * 2 / 3.);
+        return rect.contains(x, y) || ellipse.contains(x, y);
     }
 
     public void move(int x, int y) {

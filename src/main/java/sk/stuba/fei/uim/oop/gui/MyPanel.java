@@ -15,14 +15,15 @@ public class MyPanel extends JPanel {
     private final List<Tree> trees;
     @Getter @Setter
     private Tree tree;
-    @Getter
     private Colors rotateColor;
 
     public MyPanel(UniversalAdapter listener) {
         super();
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
+        this.setBackground(Color.LIGHT_GRAY);
         this.trees = new ArrayList<>();
+        this.tree = null;
         this.rotateColor = Colors.FIRST;
     }
 
@@ -55,7 +56,7 @@ public class MyPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.trees.forEach(tree -> tree.draw(g));
-        if (this.tree != null) {
+        if (this.tree != null && !this.trees.contains(this.tree)) {
             this.tree.draw(g);
         }
     }
