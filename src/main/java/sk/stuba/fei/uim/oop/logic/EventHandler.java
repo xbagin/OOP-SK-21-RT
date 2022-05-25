@@ -14,13 +14,13 @@ import java.util.Objects;
 public class EventHandler extends UniversalAdapter {
     private final JLabel label;
     private int mouseOriginX;
-    private int MouseOriginY;
+    private int mouseOriginY;
 
     public EventHandler(JLabel label) {
         super();
         this.label = label;
         this.mouseOriginX = 0;
-        this.MouseOriginY = 0;
+        this.mouseOriginY = 0;
         this.label.setText(Modes.DRAWING.name());
     }
 
@@ -49,7 +49,7 @@ public class EventHandler extends UniversalAdapter {
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
             this.mouseOriginX = e.getX();
-            this.MouseOriginY = e.getY();
+            this.mouseOriginY = e.getY();
             if (this.modeIs(Modes.DRAWING)) {
                 canvas.setTree(new Tree(e.getX(), e.getY(), canvas.getColor()));
             }
@@ -83,14 +83,14 @@ public class EventHandler extends UniversalAdapter {
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
             if (this.modeIs(Modes.DRAWING)) {
-                canvas.getTree().resize(this.mouseOriginX, this.MouseOriginY, e.getX(), e.getY());
+                canvas.getTree().resize(this.mouseOriginX, this.mouseOriginY, e.getX(), e.getY());
             }
             if (this.modeIs(Modes.MOVING)) {
                 Tree tree = canvas.getTree();
                 if (tree != null) {
-                    tree.move(e.getX() - this.mouseOriginX, e.getY() - this.MouseOriginY);
+                    tree.move(e.getX() - this.mouseOriginX, e.getY() - this.mouseOriginY);
                     this.mouseOriginX = e.getX();
-                    this.MouseOriginY = e.getY();
+                    this.mouseOriginY = e.getY();
                 }
             }
             canvas.repaint();
