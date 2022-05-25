@@ -46,7 +46,7 @@ public class EventHandler extends UniversalAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
-        if (e.getSource() instanceof MyPanel) {
+        if (Objects.equals(e.getButton(), MouseEvent.BUTTON1) && e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
             this.mouseOriginX = e.getX();
             this.mouseOriginY = e.getY();
@@ -65,7 +65,7 @@ public class EventHandler extends UniversalAdapter {
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
-        if (e.getSource() instanceof MyPanel) {
+        if (Objects.equals(e.getButton(), MouseEvent.BUTTON1) && e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
             if (this.modeIs(Modes.DRAWING)) {
                 canvas.finishTree(/*e.getX(), e.getY()*/);
@@ -82,12 +82,12 @@ public class EventHandler extends UniversalAdapter {
         super.mouseDragged(e);
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
-            if (this.modeIs(Modes.DRAWING)) {
-                canvas.getTree().resize(this.mouseOriginX, this.mouseOriginY, e.getX(), e.getY());
-            }
-            if (this.modeIs(Modes.MOVING)) {
-                Tree tree = canvas.getTree();
-                if (tree != null) {
+            Tree tree = canvas.getTree();
+            if (tree != null) {
+                if (this.modeIs(Modes.DRAWING)) {
+                    canvas.getTree().resize(this.mouseOriginX, this.mouseOriginY, e.getX(), e.getY());
+                }
+                if (this.modeIs(Modes.MOVING)) {
                     tree.move(e.getX() - this.mouseOriginX, e.getY() - this.mouseOriginY);
                     this.mouseOriginX = e.getX();
                     this.mouseOriginY = e.getY();
